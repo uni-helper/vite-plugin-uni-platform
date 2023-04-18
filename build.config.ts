@@ -7,5 +7,6 @@ export default defineBuildConfig({
   rollup: {
     emitCJS: true,
   },
-  failOnWarn: false
+  failOnWarn: false,
+  externals: ['@dcloudio/uni-cli-shared', "vite"],
 });
