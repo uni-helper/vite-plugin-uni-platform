@@ -4,7 +4,7 @@ import * as utils from '@dcloudio/uni-cli-shared/dist/utils.js'
 // @ts-expect-error ignore
 import * as constants from '@dcloudio/uni-cli-shared/dist/constants.js'
 import { resolve } from 'node:path'
-import { inputDir as uniInputDir, isApp, isMp, platform } from '@uni-helper/uni-env'
+import { inputDir as uniInputDir, isApp, isMp } from '@uni-helper/uni-env'
 import { existsSync } from 'node:fs'
 
 // const uniNormalizePagePath = utils.normalizePagePath
