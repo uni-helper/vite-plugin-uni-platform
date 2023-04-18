@@ -1,0 +1,58 @@
+{
+  "name": "@uni-helper/vite-plugin-uni-platform",
+  "type": "module",
+  "version": "0.0.0",
+  "packageManager": "pnpm@8.1.1",
+  "description": "",
+  "author": "KeJun",
+  "license": "MIT",
+  "homepage": "https://github.com/kejunmao/@uni-helper/vite-plugin-uni-platform#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kejunmao/@uni-helper/vite-plugin-uni-platform.git"
+  },
+  "bugs": "https://github.com/kejunmao/@uni-helper/vite-plugin-uni-platform/issues",
+  "keywords": [],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*",
+        "./dist/index.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "dev": "unbuild --stub",
+    "prepublishOnly": "pnpm build",
+    "release": "bumpp",
+    "start": "esno src/index.ts",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.13",
+    "bumpp": "^8.2.1",
+    "esno": "^0.16.3",
+    "typescript": "^4.9.4",
+    "unbuild": "^1.0.2",
+    "vite": "^4.0.0",
+    "vitest": "^0.25.7"
+  },
+  "dependencies": {
+    "@uni-helper/uni-env": "^0.0.2"
+  }
+}
