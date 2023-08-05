@@ -1,7 +1,8 @@
 // overwrite uni-cli-shared utils normalizePagePath
-// @ts-expect-error ignore
 import { resolve } from 'node:path'
 import { existsSync } from 'node:fs'
+
+// @ts-expect-error ignore
 import * as utils from '@dcloudio/uni-cli-shared/dist/utils.js'
 
 // @ts-expect-error ignore
