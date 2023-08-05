@@ -1,9 +1,3 @@
 <template>
-  <div>test.app</div>
+  <div>test.app.vue</div>
 </template>
-
-<style>
-body::after {
-  content: "test.app";
-}
-</style>

@@ -3,6 +3,7 @@ import { dirname, resolve } from 'node:path'
 import { isH5, platform } from '@uni-helper/uni-env'
 import type { Plugin } from 'vite'
 import { normalizePath } from 'vite'
+import './hacker'
 
 export function VitePluginUniPlatform(): Plugin {
   return {

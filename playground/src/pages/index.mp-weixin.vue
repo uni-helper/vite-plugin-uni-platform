@@ -6,5 +6,5 @@ const num = ref(1)
 </script>
 
 <template>
-  <div>{{ sum(num, 2) }} - mp-weixin</div>
+  <div>{{ sum(num, 2) }} - index.mp-weixin.vue</div>
 </template>

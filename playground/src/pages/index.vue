@@ -6,11 +6,5 @@ const num = ref(1)
 </script>
 
 <template>
-  {{ sum(num, 2) }}
+  <div>{{ sum(num, 2) }} - index.vue</div>
 </template>
-
-<style>
-body::after {
-  content: "index";
-}
-</style>

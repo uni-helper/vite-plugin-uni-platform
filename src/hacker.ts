@@ -7,7 +7,7 @@ import * as utils from '@dcloudio/uni-cli-shared/dist/utils.js'
 
 // @ts-expect-error ignore
 import * as constants from '@dcloudio/uni-cli-shared/dist/constants.js'
-import { isApp, isMp, inputDir as uniInputDir } from '@uni-helper/uni-env'
+import { isApp, inputDir as uniInputDir } from '@uni-helper/uni-env'
 
 // const uniNormalizePagePath = utils.normalizePagePath
 // 解决 MP 和 APP 平台页面文件不存在时不继续执行的问题
@@ -25,7 +25,7 @@ utils.normalizePagePath = function (pagePath, platform) {
       return pagePath + extname
 
     const withPlatform = `${absolutePagePath}.${platform}${extname}`
-    if ((isApp || isMp) && existsSync(withPlatform))
+    if (existsSync(withPlatform))
       return pagePath + extname
   }
   console.error(`${pagePath} not found`)

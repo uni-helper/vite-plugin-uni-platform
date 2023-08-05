@@ -1,3 +1,3 @@
 <template>
-  <div>test.h5</div>
+  <div>test.h5.vue</div>
 </template>
