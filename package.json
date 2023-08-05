@@ -2,7 +2,7 @@
   "name": "@uni-helper/vite-plugin-uni-platform",
   "type": "module",
   "version": "0.0.1",
-  "packageManager": "pnpm@8.3.0",
+  "packageManager": "pnpm@8.6.11",
   "description": "",
   "author": "KeJun",
   "license": "MIT",
@@ -38,21 +38,22 @@
   "scripts": {
     "build": "unbuild",
     "dev": "unbuild --stub",
+    "play": "pnpm dev && npm -C playground run dev:h5",
     "prepublishOnly": "pnpm build",
     "release": "bumpp",
     "start": "esno src/index.ts",
     "test": "vitest"
   },
   "devDependencies": {
-    "@types/node": "^18.15.11",
-    "bumpp": "^9.1.0",
-    "esno": "^0.16.3",
-    "typescript": "^5.0.4",
+    "@types/node": "^18.17.2",
+    "bumpp": "^9.1.1",
+    "esno": "^0.17.0",
+    "typescript": "^5.1.6",
     "unbuild": "^1.2.1",
-    "vite": "^4.2.2",
-    "vitest": "^0.30.1"
+    "vite": "^4.4.8",
+    "vitest": "^0.34.1"
   },
   "dependencies": {
-    "@uni-helper/uni-env": "^0.0.2"
+    "@uni-helper/uni-env": "^0.0.3"
   }
 }
