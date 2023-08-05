@@ -1,1 +1,1 @@
-export const sum = (a: number, b: number) => a + b + 'app.utils'
+export const sum = (a: number, b: number) => `${a + b}app.utils`

@@ -1,16 +1,17 @@
-import { isH5, platform } from "@uni-helper/uni-env"
-import { existsSync, readFileSync } from "fs"
-import { Plugin, normalizePath } from "vite"
-import { dirname, resolve } from "path"
+import { existsSync, readFileSync } from 'node:fs'
+import { dirname, resolve } from 'node:path'
+import { isH5, platform } from '@uni-helper/uni-env'
+import type { Plugin } from 'vite'
+import { normalizePath } from 'vite'
 
-export const VitePluginUniPlatform = (): Plugin => {
+export function VitePluginUniPlatform(): Plugin {
   return {
-    name: "vite-plugin-uni-platform",
-    enforce: "pre",
+    name: 'vite-plugin-uni-platform',
+    enforce: 'pre',
     async resolveId(source, importer, options) {
-      if (source.includes(`.${platform}`)) {
+      if (source.includes(`.${platform}`))
         return null
-      }
+
       // 先尝试 resolve
       const resolution = await this.resolve(source, importer, {
         ...options,
@@ -20,21 +21,22 @@ export const VitePluginUniPlatform = (): Plugin => {
       if (!resolution) {
         const platformSource = source.replace(/(.*)\.(.*)$/, `$1.${platform}.$2`)
         const resolution = await this.resolve(platformSource, importer, options)
-        if (!resolution || resolution.external) return resolution;
+        if (!resolution || resolution.external)
+          return resolution
         return normalizePath(resolve(dirname(importer!), isH5 ? platformSource : source))
       }
     },
     async load(id) {
       let platformId = id
-      if (!id.includes(`.${platform}`)) {
+      if (!id.includes(`.${platform}`))
         platformId = id.replace(/(.*)\.(.*)$/, `$1.${platform}.$2`)
-      }
+
       if (platformId && platformId !== id && existsSync(platformId)) {
         return readFileSync(platformId, {
-          encoding: 'utf-8'
+          encoding: 'utf-8',
         })
       }
-    }
+    },
   }
 }
 
