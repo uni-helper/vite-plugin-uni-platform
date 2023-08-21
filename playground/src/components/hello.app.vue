@@ -1,3 +1,3 @@
 <template>
-  <div>hello.app</div>
+  <div>hello.app.vue</div>
 </template>

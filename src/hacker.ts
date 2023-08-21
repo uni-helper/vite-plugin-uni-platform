@@ -9,7 +9,6 @@ import * as utils from '@dcloudio/uni-cli-shared/dist/utils.js'
 import * as constants from '@dcloudio/uni-cli-shared/dist/constants.js'
 import { isApp, inputDir as uniInputDir } from '@uni-helper/uni-env'
 
-// const uniNormalizePagePath = utils.normalizePagePath
 // 解决 MP 和 APP 平台页面文件不存在时不继续执行的问题
 // @ts-expect-error ignore
 utils.normalizePagePath = function (pagePath, platform) {
