@@ -2,7 +2,7 @@
   "name": "@uni-helper/vite-plugin-uni-platform",
   "type": "module",
   "version": "0.0.2",
-  "packageManager": "pnpm@8.6.11",
+  "packageManager": "pnpm@8.6.12",
   "description": "",
   "author": "KeJun",
   "license": "MIT",
@@ -50,14 +50,14 @@
     "@uni-helper/uni-env": "^0.0.3"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.40.0",
-    "@types/node": "^18.17.2",
-    "bumpp": "^9.1.1",
-    "eslint": "^8.46.0",
+    "@antfu/eslint-config": "^0.40.2",
+    "@types/node": "^18.17.6",
+    "bumpp": "^9.2.0",
+    "eslint": "^8.47.0",
     "esno": "^0.17.0",
     "typescript": "^5.1.6",
     "unbuild": "^1.2.1",
-    "vite": "^4.4.8",
-    "vitest": "^0.34.1"
+    "vite": "^4.4.9",
+    "vitest": "^0.34.2"
   }
 }
