@@ -1,6 +1,6 @@
 # @uni-helper/vite-plugin-uni-platform
 
-> WIP 基于文件名 (`*.<h5|mp-weixin|app>.*`) 的按平台编译插件
+> 基于文件名 (`*.<h5|mp-weixin|app>.*`) 的按平台编译插件
 
 ## 安装
 
@@ -45,26 +45,6 @@ flowchart LR
     end
 
 ```
-
-## 已知问题
-
-- 除页面外，必须有回退文件：
-  ```text
-  utils/
-    index.h5.ts
-    index.mp.ts
-    index.ts
-  ```
-  > 正确
-  ***
-  ```text
-  utils/
-    index.h5.ts
-    index.mp-weixin.ts
-  ```
-  > 错误
-- 项目在微信小程序和 h5 环境中工作良好，其他平台未测试。
-
 ## 其他
 
 ### 与 `@uni-helper/vite-plugin-uni-pages` 插件一起使用
