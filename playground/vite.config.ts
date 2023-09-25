@@ -9,6 +9,7 @@ export default defineConfig({
   plugins: [
     UniPlatform(),
     UniPages({
+      dts: "src/uni-pages.d.ts",
       onBeforeWriteFile(ctx) {
         const pagesMap = new Map()
         const pages = ctx.pageMetaData.filter(v => !/\..*$/.test(v.path) || v.path.includes(platform)).map(v => ({ ...v, path: v.path.replace(/\..*$/, '') }))
