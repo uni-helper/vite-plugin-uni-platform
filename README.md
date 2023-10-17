@@ -47,7 +47,13 @@ flowchart LR
 ```
 ## 其他
 
-### 与 `@uni-helper/vite-plugin-uni-pages` 插件一起使用
+<details>
+
+<summary>与 @uni-helper/vite-plugin-uni-pages 插件一起使用</summary>
+<br>
+
+> [!NOTE]
+> 自 vite-plugin-uni-pages 插件 0.2.12 起，不再需要进行处理。
 
 ```ts
 // vite.config.ts
@@ -74,3 +80,5 @@ export default defineConfig({
   ],
 })
 ```
+
+</details>
