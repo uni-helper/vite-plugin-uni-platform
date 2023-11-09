@@ -1,3 +1,3 @@
 <template>
-  <div>hello.mp-weixin.vue</div>
+  <div>components/hello.mp-weixin.vue</div>
 </template>

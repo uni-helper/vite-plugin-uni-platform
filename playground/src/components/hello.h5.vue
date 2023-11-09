@@ -1,3 +1,3 @@
 <template>
-  <div>hello.h5.vue</div>
+  <div>components/hello.h5.vue</div>
 </template>
