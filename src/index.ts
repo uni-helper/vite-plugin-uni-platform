@@ -1,8 +1,8 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { basename, dirname, extname, resolve } from 'node:path'
-import { isMp, platform } from '@uni-helper/uni-env'
+import { isMp } from '@uni-helper/uni-env'
 import { type Plugin, createFilter, normalizePath } from 'vite'
-import './hacker'
+import { platform } from './hacker'
 import type { ResolvedOptions, UserOptions } from './types'
 
 function resolveOptions(userOptions: UserOptions): ResolvedOptions {

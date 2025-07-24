@@ -43,7 +43,7 @@
   "scripts": {
     "build": "unbuild",
     "dev": "unbuild --stub",
-    "play": "pnpm dev && npm -C playground run dev:h5",
+    "play": "pnpm dev && npm -C playground run dev:h5-weixin",
     "prepublishOnly": "pnpm build",
     "release": "bumpp",
     "start": "esno src/index.ts",
@@ -55,8 +55,8 @@
     "@uni-helper/uni-env": "^0.1.1"
   },
   "devDependencies": {
-    "@uni-helper/eslint-config": "^0.0.4",
     "@types/node": "^20.9.0",
+    "@uni-helper/eslint-config": "^0.0.4",
     "bumpp": "^9.2.0",
     "eslint": "^8.53.0",
     "esno": "^0.17.0",
