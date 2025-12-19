@@ -6,12 +6,12 @@
   "description": "",
   "author": "KeJun",
   "license": "MIT",
-  "homepage": "https://github.com/kejunmao/@uni-helper/vite-plugin-uni-platform#readme",
+  "homepage": "https://github.com/uni-helper/vite-plugin-uni-platform#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kejunmao/@uni-helper/vite-plugin-uni-platform.git"
+    "url": "git+https://github.com/uni-helper/vite-plugin-uni-platform.git"
   },
-  "bugs": "https://github.com/kejunmao/@uni-helper/vite-plugin-uni-platform/issues",
+  "bugs": "https://github.com/uni-helper/vite-plugin-uni-platform/issues",
   "keywords": [],
   "sideEffects": false,
   "exports": {
