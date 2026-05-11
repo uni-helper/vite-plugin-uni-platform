@@ -1,8 +1,8 @@
-// overwrite uni-cli-shared utils normalizePagePath
-import { parse, resolve } from 'node:path'
 import { existsSync } from 'node:fs'
 import { createRequire } from 'node:module'
-import { customScript, isApp, inputDir as uniInputDir, platform as uniPlatform } from '@uni-helper/uni-env'
+// overwrite uni-cli-shared utils normalizePagePath
+import { parse, resolve } from 'node:path'
+import { customScript, isApp, inputDir as uniInputDir, platform as uniPlatform, isAppX } from '@uni-helper/uni-env'
 
 export const platform = customScript || uniPlatform
 
@@ -17,7 +17,7 @@ const constants = _require('@dcloudio/uni-cli-shared/dist/constants.js')
 // 解决 MP 和 APP 平台页面文件不存在时不继续执行的问题
 // @ts-expect-error ignore
 uniUtils.normalizePagePath = function (pagePath, platform) {
-  const absolutePagePath = resolve(uniInputDir, pagePath)
+  const absolutePagePath = resolve(uniInputDir ?? '.', pagePath)
   let extensions = constants.PAGE_EXTNAME
   if (isApp)
     extensions = constants.PAGE_EXTNAME_APP

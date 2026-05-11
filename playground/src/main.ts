@@ -1,6 +1,6 @@
 import { createSSRApp } from 'vue'
-import App from './App.vue'
 import Hello from '@/components/hello.vue'
+import App from './App.vue'
 
 export function createApp() {
   const app = createSSRApp(App)

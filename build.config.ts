@@ -7,14 +7,14 @@ export default defineBuildConfig({
   rollup: {
     emitCJS: true,
     output: {
-      interop: 'esModule'
-    }
+      interop: 'esModule',
+    },
   },
   failOnWarn: false,
   externals: ['@dcloudio/uni-cli-shared', 'vite'],
   hooks: {
-    "rollup:options": (_ctx, options) => {
+    'rollup:options': (_ctx, options) => {
       options.treeshake = false
-    }
-  }
+    },
+  },
 })

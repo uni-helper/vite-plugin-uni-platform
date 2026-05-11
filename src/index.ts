@@ -1,9 +1,10 @@
+import type { Plugin } from 'vite'
+import type { ResolvedOptions, UserOptions } from './types'
 import { existsSync, readFileSync } from 'node:fs'
 import { basename, dirname, extname, resolve } from 'node:path'
 import { isMp } from '@uni-helper/uni-env'
-import { type Plugin, createFilter, normalizePath } from 'vite'
+import { createFilter, normalizePath } from 'vite'
 import { platform } from './hacker'
-import type { ResolvedOptions, UserOptions } from './types'
 
 function resolveOptions(userOptions: UserOptions): ResolvedOptions {
   return {

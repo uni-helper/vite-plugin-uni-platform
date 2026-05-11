@@ -11,10 +11,10 @@ pnpm i -D @uni-helper/vite-plugin-uni-platform
 ## 使用
 
 ```ts
-// vite.config.ts
-import { defineConfig } from 'vite'
 import Uni from '@dcloudio/vite-plugin-uni'
 import UniPlatform from '@uni-helper/vite-plugin-uni-platform'
+// vite.config.ts
+import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [UniPlatform(), Uni()],
@@ -56,12 +56,12 @@ flowchart LR
 > 自 vite-plugin-uni-pages 插件 0.2.12 起，不再需要进行处理。
 
 ```ts
+import Uni from '@dcloudio/vite-plugin-uni'
+import { platform } from '@uni-helper/uni-env'
+import UniPages from '@uni-helper/vite-plugin-uni-pages'
+import UniPlatform from '@uni-helper/vite-plugin-uni-platform'
 // vite.config.ts
 import { defineConfig } from 'vite'
-import Uni from '@dcloudio/vite-plugin-uni'
-import UniPlatform from '@uni-helper/vite-plugin-uni-platform'
-import UniPages from '@uni-helper/vite-plugin-uni-pages'
-import { platform } from '@uni-helper/uni-env'
 
 export default defineConfig({
   plugins: [
