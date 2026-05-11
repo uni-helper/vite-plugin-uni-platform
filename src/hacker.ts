@@ -2,7 +2,7 @@ import { existsSync } from 'node:fs'
 import { createRequire } from 'node:module'
 // overwrite uni-cli-shared utils normalizePagePath
 import { parse, resolve } from 'node:path'
-import { customScript, isApp, inputDir as uniInputDir, platform as uniPlatform, isAppX } from '@uni-helper/uni-env'
+import { customScript, isApp, isAppX, inputDir as uniInputDir, platform as uniPlatform } from '@uni-helper/uni-env'
 
 export const platform = customScript || uniPlatform
 
@@ -30,7 +30,7 @@ uniUtils.normalizePagePath = function (pagePath, platform) {
 
     const withPlatform = `${absolutePagePath}.${platform}${extname}`
     if (existsSync(withPlatform))
-      return pagePath + extname
+      return `${pagePath}.${platform}${extname}`
   }
   console.error(`${pagePath} not found`)
 }
