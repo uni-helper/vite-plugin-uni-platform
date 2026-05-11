@@ -1,5 +1,11 @@
 # @uni-helper/vite-plugin-uni-platform
 
+<a href="https://github.com/uni-helper/vite-plugin-uni-platform/stargazers"><img src="https://img.shields.io/github/stars/uni-helper/vite-plugin-uni-platform?colorA=005947&colorB=eee&style=for-the-badge"></a>
+<a href="https://www.npmjs.com/package/@uni-helper/vite-plugin-uni-platform"><img src="https://img.shields.io/npm/dm/@uni-helper/vite-plugin-uni-platform?colorA=005947&colorB=eee&style=for-the-badge"></a>
+<a href="https://www.npmjs.com/package/@uni-helper/vite-plugin-uni-platform"><img src="https://img.shields.io/npm/v/@uni-helper/vite-plugin-uni-platform?colorA=005947&colorB=eee&style=for-the-badge"></a>
+
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/uni-helper/vite-plugin-uni-platform)
+
 > 基于文件名 (`*.<h5|mp-weixin|app>.*`) 的按平台编译插件
 
 ## 安装
@@ -57,7 +63,7 @@ flowchart LR
 
 ```ts
 import Uni from '@dcloudio/vite-plugin-uni'
-import { platform } from '@uni-helper/uni-env'
+import { platform } from '@uni-helper/vite-plugin-uni-platform'
 import UniPages from '@uni-helper/vite-plugin-uni-pages'
 import UniPlatform from '@uni-helper/vite-plugin-uni-platform'
 // vite.config.ts
