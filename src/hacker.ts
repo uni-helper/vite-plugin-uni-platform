@@ -25,12 +25,13 @@ uniUtils.normalizePagePath = function (pagePath, platform) {
   for (let i = 0; i < extensions.length; i++) {
     const extname = extensions[i]
 
-    if (existsSync(absolutePagePath + extname))
-      return pagePath + extname
-
+    // 优先匹配平台特定文件，避免 uni-app 同时注册基础文件和平台文件导致页面重复
     const withPlatform = `${absolutePagePath}.${platform}${extname}`
     if (existsSync(withPlatform))
       return `${pagePath}.${platform}${extname}`
+
+    if (existsSync(absolutePagePath + extname))
+      return pagePath + extname
   }
   console.error(`${pagePath} not found`)
 }
