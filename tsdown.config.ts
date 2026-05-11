@@ -4,4 +4,7 @@ export default defineConfig({
   entry: 'src/index.ts',
   format: ['esm', 'cjs'],
   dts: true,
+  deps: {
+    neverBundle: ['@dcloudio/uni-cli-shared'],
+  },
 })
