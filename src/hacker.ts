@@ -18,9 +18,9 @@ const constants = _require('@dcloudio/uni-cli-shared/dist/constants.js')
 // @ts-expect-error ignore
 uniUtils.normalizePagePath = function (pagePath, platform) {
   const absolutePagePath = resolve(uniInputDir ?? '.', pagePath)
-  let extensions = constants.PAGE_EXTNAME
+  let extensions = isAppX ? constants.X_PAGE_EXTNAME : constants.PAGE_EXTNAME
   if (isApp)
-    extensions = constants.PAGE_EXTNAME_APP
+    extensions = isAppX ? constants.X_PAGE_EXTNAME_APP : constants.PAGE_EXTNAME_APP
 
   for (let i = 0; i < extensions.length; i++) {
     const extname = extensions[i]
