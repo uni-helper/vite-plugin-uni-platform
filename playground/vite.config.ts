@@ -1,22 +1,21 @@
 import Uni from '@dcloudio/vite-plugin-uni'
-import { platform } from '@uni-helper/uni-env'
-import UniPages from '@uni-helper/vite-plugin-uni-pages'
 import UniPlatform from '@uni-helper/vite-plugin-uni-platform'
 import { defineConfig } from 'vite'
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [
-    UniPlatform(),
-    UniPages({
-      dts: 'src/uni-pages.d.ts',
-      onBeforeWriteFile(ctx) {
-        const pagesMap = new Map()
-        const pages = ctx.pageMetaData.filter(v => !/\..*$/.test(v.path) || v.path.includes(platform)).map(v => ({ ...v, path: v.path.replace(/\..*$/, '') }))
-        pages.forEach(v => pagesMap.set(v.path, v))
-        ctx.pageMetaData = [...pagesMap.values()]
-      },
-    }),
-    Uni(),
-  ],
+// uni-pages 0.6.1 只发布 ESM 入口，而这个配置文件按 CJS 加载（playground 没开
+// "type": "module"），所以只能在异步工厂里动态导入它的默认导出
+export default defineConfig(async () => {
+  const { default: UniPages } = await import('@uni-helper/vite-plugin-uni-pages')
+  return {
+    plugins: [
+      // uni-pages 从插件列表里按名字 vite-plugin-uni-platform 认出本插件，
+      // 自己过滤掉其他平台的页面，这里不用再传 onBeforeWriteFile
+      UniPlatform(),
+      UniPages({
+        dts: 'src/uni-pages.d.ts',
+      }),
+      Uni(),
+    ],
+  }
 })
