@@ -7,7 +7,9 @@ import { customScript, isApp, isAppX, inputDir as uniInputDir, platform as uniPl
 export const platform = customScript || uniPlatform
 
 // 兼容 ESM 和 CJS 的 require
-const _require = typeof require === 'function' ? require : createRequire(import.meta.url)
+const _require = typeof require === 'function'
+  ? require
+  : createRequire(import.meta.url)
 
 // 获取原始模块对象
 const uniUtils = _require('@dcloudio/uni-cli-shared/dist/utils.js')
@@ -43,9 +45,11 @@ uniResolve.requireResolve = function (filename, basedir) {
   try {
     return requireResolve(filename, basedir)
   }
-  catch (error) {
+  catch {
     const { ext, base, dir } = parse(filename)
-    filename = `${dir}/${base}.${platform}${ext ? `.${ext}` : ''}`
+    filename = `${dir}/${base}.${platform}${ext
+      ? `.${ext}`
+      : ''}`
     return requireResolve(filename, basedir)
   }
 }

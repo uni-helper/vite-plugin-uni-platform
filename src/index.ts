@@ -14,13 +14,17 @@ function resolveOptions(userOptions: UserOptions): ResolvedOptions {
   }
 }
 
-function hasPlatformSuffix(id: string) {
+function hasPlatformSuffix(id: string): boolean {
   const fileName = basename(id, extname(id))
   return new RegExp(`\\.${platform}$`).test(fileName)
 }
 
-function joinPlatformSuffix(id: string) {
-  return id.replace(/(.*)\.(.*)$/, `$1.${platform}.$2`)
+function joinPlatformSuffix(id: string): string {
+  // 后缀插在最后一个点之前；没有点时原样返回
+  const lastDot = id.lastIndexOf('.')
+  if (lastDot === -1)
+    return id
+  return `${id.slice(0, lastDot)}.${platform}${id.slice(lastDot)}`
 }
 
 export function VitePluginUniPlatform(userOptions: UserOptions = {}): Plugin {
@@ -51,7 +55,9 @@ export function VitePluginUniPlatform(userOptions: UserOptions = {}): Plugin {
       const isVue = resolution.id.endsWith('vue')
       // 小程序的vue文件直接使用 sourceId ，避免生成类似 test.mp-weixin.wxml
       // 其他平台的和其他文件直接使用 resolution
-      return (isMp && isVue) ? sourceId : resolution
+      return (isMp && isVue)
+        ? sourceId
+        : resolution
     },
     // 自定义加载器，尝试将所有不带 {platform} 后缀的文件拼接 {platform} 后去加载
     async load(id) {
