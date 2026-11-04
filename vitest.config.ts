@@ -10,5 +10,9 @@ export default defineConfig({
         inline: ['@uni-helper/uni-env'],
       },
     },
+    coverage: {
+      // 只看插件源码；playground 和测试夹具不在统计范围内
+      include: ['src/**/*.ts'],
+    },
   },
 })

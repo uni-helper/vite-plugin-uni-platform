@@ -15,16 +15,37 @@
       "onFail": "warn"
     }
   },
-  "description": "",
+  "description": "Per-platform compilation for uni-app applications by file name suffix, using Vite",
   "author": "KeJun",
   "license": "MIT",
+  "funding": [
+    "https://afdian.com/a/kejun",
+    "https://github.com/ModyQyW/sponsors"
+  ],
   "homepage": "https://github.com/uni-helper/vite-plugin-uni-platform#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/uni-helper/vite-plugin-uni-platform.git"
   },
   "bugs": "https://github.com/uni-helper/vite-plugin-uni-platform/issues",
-  "keywords": [],
+  "keywords": [
+    "uni-app",
+    "uniapp",
+    "uni-helper",
+    "vite",
+    "vite-plugin",
+    "platform",
+    "multi-platform",
+    "h5",
+    "mp-weixin"
+  ],
+  "maintainers": [
+    {
+      "name": "ModyQyW",
+      "email": "wurui.dev@gmail.com",
+      "url": "https://modyyw.top"
+    }
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.mts",
@@ -37,6 +58,9 @@
   "files": [
     "dist"
   ],
+  "engines": {
+    "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
+  },
   "scripts": {
     "build": "tsdown",
     "dev": "tsdown --watch",
@@ -47,9 +71,10 @@
     "play:h5": "pnpm dev && pnpm -C playground run dev:h5",
     "play:mp-weixin": "pnpm dev && pnpm -C playground run dev:mp-weixin",
     "test": "vitest",
-    "typecheck": "pnpm -C playground run type-check",
+    "typecheck": "tsc --noEmit && pnpm -C playground run type-check",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "coverage": "vitest run --coverage"
   },
   "peerDependencies": {
     "vite": "^5.0.0"
@@ -60,6 +85,7 @@
   "devDependencies": {
     "@types/node": "catalog:",
     "@uni-helper/eslint-config": "catalog:",
+    "@vitest/coverage-v8": "catalog:",
     "bumpp": "catalog:",
     "eslint": "catalog:",
     "tsdown": "catalog:",
