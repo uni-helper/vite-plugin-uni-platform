@@ -1,7 +1,7 @@
 import type { Plugin } from 'vite'
 import type { ResolvedOptions, UserOptions } from './types'
 import { existsSync, readFileSync } from 'node:fs'
-import { basename, dirname, extname, resolve } from 'node:path'
+import { basename, dirname, extname, parse, resolve } from 'node:path'
 import { isMp } from '@uni-helper/uni-env'
 import { createFilter, normalizePath } from 'vite'
 import { platform } from './platform'
@@ -22,11 +22,16 @@ function hasPlatformSuffix(id: string): boolean {
 }
 
 function joinPlatformSuffix(id: string): string {
-  // 后缀插在最后一个点之前；没有点时原样返回
-  const lastDot = id.lastIndexOf('.')
-  if (lastDot === -1)
+  const { base, ext } = parse(id)
+  if (!base)
     return id
-  return `${id.slice(0, lastDot)}.${platform}${id.slice(lastDot)}`
+  // 后缀只加在文件名上：目录名里的点（如 pages/v1.2/detail）不是扩展名。
+  // 没有扩展名时接在文件名末尾，这样 `@/utils/test` 也能拼出 test.{platform}
+  const name = ext
+    ? base.slice(0, -ext.length)
+    : base
+  // 文件名之前的部分原样保留，不重新拼路径，免得丢掉 ./ 前缀或分隔符
+  return `${id.slice(0, id.length - base.length)}${name}.${platform}${ext}`
 }
 
 export function VitePluginUniPlatform(userOptions: UserOptions = {}): Plugin {
