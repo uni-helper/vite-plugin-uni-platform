@@ -4,7 +4,9 @@ import { existsSync, readFileSync } from 'node:fs'
 import { basename, dirname, extname, resolve } from 'node:path'
 import { isMp } from '@uni-helper/uni-env'
 import { createFilter, normalizePath } from 'vite'
-import { platform } from './hacker'
+import { platform } from './platform'
+// 导入即给 @dcloudio/uni-cli-shared 打补丁
+import './hacker'
 
 function resolveOptions(userOptions: UserOptions): ResolvedOptions {
   return {

@@ -2,9 +2,8 @@ import { existsSync } from 'node:fs'
 import { createRequire } from 'node:module'
 // overwrite uni-cli-shared utils normalizePagePath
 import { parse, resolve } from 'node:path'
-import { customScript, isApp, isAppX, inputDir as uniInputDir, platform as uniPlatform } from '@uni-helper/uni-env'
-
-export const platform = customScript || uniPlatform
+import { isApp, isAppX, inputDir as uniInputDir } from '@uni-helper/uni-env'
+import { platform } from './platform'
 
 // 包只发 ESM，直接用 import.meta.url 拿 require，用来加载要打补丁的 CJS 内部模块
 const _require = createRequire(import.meta.url)
