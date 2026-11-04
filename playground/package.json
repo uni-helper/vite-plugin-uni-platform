@@ -64,6 +64,7 @@
     "@dcloudio/uni-cli-shared": "catalog:",
     "@dcloudio/uni-stacktracey": "catalog:",
     "@dcloudio/vite-plugin-uni": "catalog:",
+    "@uni-helper/plugin-uni": "catalog:",
     "@uni-helper/vite-plugin-uni-pages": "catalog:",
     "@uni-helper/vite-plugin-uni-platform": "workspace:*",
     "@vue/tsconfig": "catalog:",
