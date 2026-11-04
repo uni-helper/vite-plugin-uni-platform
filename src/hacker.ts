@@ -6,10 +6,8 @@ import { customScript, isApp, isAppX, inputDir as uniInputDir, platform as uniPl
 
 export const platform = customScript || uniPlatform
 
-// 兼容 ESM 和 CJS 的 require
-const _require = typeof require === 'function'
-  ? require
-  : createRequire(import.meta.url)
+// 包只发 ESM，直接用 import.meta.url 拿 require，用来加载要打补丁的 CJS 内部模块
+const _require = createRequire(import.meta.url)
 
 // 获取原始模块对象
 const uniUtils = _require('@dcloudio/uni-cli-shared/dist/utils.js')
