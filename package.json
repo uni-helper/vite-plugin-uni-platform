@@ -77,7 +77,13 @@
     "coverage": "vitest run --coverage"
   },
   "peerDependencies": {
+    "@uni-helper/vite-plugin-uni-pages": "^0.6.1",
     "vite": "^5.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@uni-helper/vite-plugin-uni-pages": {
+      "optional": true
+    }
   },
   "dependencies": {
     "@uni-helper/uni-env": "catalog:"
