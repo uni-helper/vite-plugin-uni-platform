@@ -71,9 +71,11 @@ src/pages/index.mp-weixin.vue # 只在微信小程序生效
 
 ## 使用
 
-### 什么样的文件名算平台文件
+### 扫描规则
 
-文件名去掉扩展名后以 `.{platform}` 结尾就算。后缀加在文件名最后一个点之前，目录名里的点不算：
+平台名来自 `@uni-helper/uni-env`：存在 uni-app 自定义编译脚本时取 `UNI_CUSTOM_SCRIPT`，否则取 `UNI_PLATFORM`。
+
+判定平台文件只看文件名：去掉扩展名后以 `.{platform}` 结尾就算。后缀加在文件名最后一个点之前，目录名里的点不算：
 
 ```text
 pages/index.h5.vue          # 算，H5 的页面
@@ -81,21 +83,44 @@ pages/v1.2/detail.h5.vue    # 算，H5 的页面；v1.2 是目录名
 pages/v1.2/detail.vue       # 不算
 ```
 
+插件不扫目录、不改写文件内容，只在解析时替换路径，所以 `.vue`、`.ts`、`.scss` 一视同仁。参与替换的范围由 `include`（默认 `**/*`）和 `exclude`（默认 `node_modules`、`.git`）决定。
+
+### 处理规则
+
+`resolveId` 依次做三件事：
+
+1. 导入本来就有当前平台后缀，直接交给后面的插件。
+2. 原路径能解析，交给 `load` 处理。`load` 先看当前平台的平台文件，存在就直接读它，否则用原文件。这一步就是“平台文件覆盖基础文件”。
+3. 原路径解析不到，拼上当前平台再解析一次。解析到就用平台文件；小程序端的 `.vue` 返回平台文件自己的路径，其余情况返回拼接后的结果。
+
+两条路都失败时构建报错，报错带「缺少基础实现」，与 Vite 默认的 `Cannot find module` 区分：
+
+```text
+缺少基础实现：无法解析 "/abs/src/platform/greeting"。基础文件不存在，当前平台 mp-weixin 的文件 "/abs/src/platform/greeting.mp-weixin" 也不存在。
+```
+
+能拿到导入方时（`resolveId` 路径），报文末尾会追加 `导入方：…`；`requireResolve` 补丁路径拿不到导入方，只有前面两句。
+
+只给项目内的文件报这个错：`resolveId` 路径看相对路径和绝对路径，`requireResolve` 补丁路径看绝对路径。包名解析失败保留原错误。
+
 ### 基础文件和平台文件
 
-两种文件同时存在时，平台文件覆盖基础文件，文件内容整个换掉。只有平台文件、没有基础文件时也能解析，导入不用写后缀：
+两种文件同时存在时，平台文件覆盖基础文件，文件内容整个换掉。导入不用写平台后缀：
 
 ```mermaid
 flowchart LR
     import["import pages/index"] --> exists{"有 index.PLATFORM.vue 吗"}
     exists -->|"有"| platform["用 index.PLATFORM.vue"]
     exists -->|"没有"| base["用 index.vue"]
+    exists -->|"两边都没有"| error["报缺少基础实现"]
 ```
 
 ```ts
 // 磁盘上只有 utils/test.h5.ts 和 utils/test.mp-weixin.ts
 import { sum } from '@/utils/test'
 ```
+
+只有平台文件、没有基础文件时可以解析，前提是当前平台有自己的文件。换到没有对应文件的平台构建，就会报上面那个错，所以建议至少留一份基础实现。
 
 ### 小程序里的 vue 文件
 

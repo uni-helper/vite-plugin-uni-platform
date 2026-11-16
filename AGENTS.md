@@ -39,7 +39,7 @@ pnpm release                            # 维护者发布：bumpp 打 tag
 | `src/platform.ts` | 导出 `platform = customScript \|\| uniPlatform`（来自 `@uni-helper/uni-env`，模块加载时读环境变量）；没有副作用，测试和纯逻辑代码单独导入它 |
 | `src/hacker.ts` | 副作用模块：用 `createRequire(import.meta.url)` 加载 `@dcloudio/uni-cli-shared` 的 `dist/utils.js`、`dist/resolve.js`、`dist/constants.js` 并覆盖 `normalizePagePath`、`requireResolve` |
 | `src/types.ts` | `Options` / `UserOptions` / `ResolvedOptions`，只有 `include` 和 `exclude` |
-| `test/index.test.ts` | 三个用例：平台文件补位、平台文件覆盖基础文件、目录名带点时后缀只加在文件名上 |
+| `test/index.test.ts` | 五个用例：平台文件补位、平台文件覆盖基础文件、目录名带点时后缀只加在文件名上、基础文件和平台文件都缺失时的报错、包名解析失败不套用该报错 |
 | `vitest.config.ts` | 把 `@uni-helper/uni-env` 内联，`vi.resetModules()` 才能重新读 `UNI_PLATFORM` |
 | `tsdown.config.ts` | 入口 `src/index.ts`，esm + dts，`@dcloudio/uni-cli-shared` 保持外部 |
 | `playground/` | 示例 uni-app 应用，`vite.config.mts`，`Uni` 来自 `@uni-helper/plugin-uni` |
@@ -57,6 +57,8 @@ pnpm release                            # 维护者发布：bumpp 打 tag
 `load` 负责覆盖：任何不带平台后缀的 id 都拼出 `{name}.{platform}{ext}`，`existsSync` 命中就返回那个文件的内容。所以「平台文件覆盖同名基础文件」是 `load` 实现的，「只有平台文件也能解析」是 `resolveId` 实现的，改一处要连着看另一处。
 
 `joinPlatformSuffix` 的不变量：后缀只加在文件名上。`pages/v1.2/detail` 要拼成 `pages/v1.2/detail.h5`，不能把 `v1.2` 当扩展名；没有扩展名时接在文件名末尾，这样 `@/utils/test` 能拼出 `test.h5`。`test/index.test.ts` 里有用例锁这条规则。
+
+两次解析都失败时用 `this.error` 报「缺少基础实现」，替掉 Vite 默认的 `Cannot find module`。失败有两种形态：一般解析器返回 `null`，uni-app 链路里的 `commonjs--resolver` 直接抛错，所以两条路都要接。只对本地导入（`./`、`../`、alias 解析后的绝对路径）报这个错，包名和虚拟模块交给其它插件；判定在 `isLocalFileImport`，改它要同时看 `test/index.test.ts` 里的包名用例。
 
 ### hacker.ts 的补丁
 
