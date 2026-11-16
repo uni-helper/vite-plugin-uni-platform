@@ -90,3 +90,25 @@ it('目录名带点时后缀只加在文件名上', async () => {
   expect(h5).toContain('detail-h5')
   expect(h5).not.toContain('detail-mp-weixin')
 })
+
+it('基础文件和当前平台文件都不存在时报缺少基础实现', async () => {
+  await writeFile(join(root, 'src/only-h5.h5.ts'), 'export const value = \'only-h5\'')
+  await writeFile(join(root, 'src/main.ts'), 'export { value } from \'./only-h5.ts\'\n')
+
+  // 换到没有对应平台文件的平台：基础文件没有，only-h5.mp-weixin.ts 也没有
+  await expect(bundle('mp-weixin')).rejects.toThrow('缺少基础实现')
+})
+
+it('包名解析失败时不套用缺少基础实现的报错', async () => {
+  await writeFile(join(root, 'src/main.ts'), 'export { value } from \'not-installed-pkg\'\n')
+
+  let message = ''
+  try {
+    await bundle('h5')
+  }
+  catch (error) {
+    message = (error as Error).message
+  }
+
+  expect(message).not.toContain('缺少基础实现')
+})
