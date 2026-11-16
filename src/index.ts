@@ -1,9 +1,10 @@
 import type { Plugin } from 'vite'
 import type { ResolvedOptions, UserOptions } from './types'
 import { existsSync, readFileSync } from 'node:fs'
-import { basename, dirname, extname, parse, resolve } from 'node:path'
+import { basename, dirname, extname, isAbsolute, parse, resolve } from 'node:path'
 import { isMp } from '@uni-helper/uni-env'
 import { createFilter, normalizePath } from 'vite'
+import { missingBaseMessage } from './message'
 import { platform } from './platform'
 // 导入即给 @dcloudio/uni-cli-shared 打补丁
 import './hacker'
@@ -34,6 +35,17 @@ function joinPlatformSuffix(id: string): string {
   return `${id.slice(0, id.length - base.length)}${name}.${platform}${ext}`
 }
 
+/**
+ * 只处理项目里的本地文件导入：包名和虚拟模块解析失败由别的插件报错，
+ * 这里插一杠会把它们的错报成“缺少基础实现”。
+ * 配了 resolve.alias 的导入在这一步已经是绝对路径，相对导入保持相对形式。
+ */
+function isLocalFileImport(source: string, importer: string | undefined): boolean {
+  if (!importer || importer.startsWith('\0') || importer.startsWith('virtual:'))
+    return false
+  return source.startsWith('./') || source.startsWith('../') || isAbsolute(source)
+}
+
 export function VitePluginUniPlatform(userOptions: UserOptions = {}): Plugin {
   const options = resolveOptions(userOptions)
   const filter = createFilter(options.include, options.exclude)
@@ -52,9 +64,30 @@ export function VitePluginUniPlatform(userOptions: UserOptions = {}): Plugin {
         return null
       // 无法解析，尝试拼接 platform 后去解析
       const platformSource = joinPlatformSuffix(source)
-      const resolution = await this.resolve(platformSource, importer, { ...options, skipSelf: true })
-      // 如果无法解析或是外部引用，则直接返回
-      if (!resolution || resolution.external)
+      let resolution: { id: string, external?: boolean | 'absolute' } | null = null
+      try {
+        resolution = await this.resolve(platformSource, importer, { ...options, skipSelf: true })
+      }
+      catch (error) {
+        // commonjs--resolver 之类的解析器对带未知后缀的路径直接抛错，
+        // 换成能说明「缺少基础实现」的错报
+        if (!importer || !isLocalFileImport(source, importer))
+          throw error
+        this.error({
+          message: missingBaseMessage(source, platformSource, importer),
+          id: importer,
+        })
+      }
+      if (!resolution) {
+        if (!importer || !isLocalFileImport(source, importer))
+          return resolution
+        this.error({
+          message: missingBaseMessage(source, platformSource, importer),
+          id: importer,
+        })
+      }
+      // 外部引用交给别的插件
+      if (resolution.external)
         return resolution
       if (!filter(resolution.id))
         return null

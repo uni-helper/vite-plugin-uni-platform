@@ -1,8 +1,9 @@
 import { existsSync } from 'node:fs'
 import { createRequire } from 'node:module'
 // overwrite uni-cli-shared utils normalizePagePath
-import { parse, resolve } from 'node:path'
+import { isAbsolute, parse, resolve } from 'node:path'
 import { isApp, isAppX, inputDir as uniInputDir } from '@uni-helper/uni-env'
+import { missingBaseMessage } from './message'
 import { platform } from './platform'
 
 // 包只发 ESM，直接用 import.meta.url 拿 require，用来加载要打补丁的 CJS 内部模块
@@ -42,11 +43,21 @@ uniResolve.requireResolve = function (filename, basedir) {
   try {
     return requireResolve(filename, basedir)
   }
-  catch {
+  catch (error) {
     const { ext, base, dir } = parse(filename)
-    filename = `${dir}/${base}.${platform}${ext
+    const platformFile = `${dir}/${base}.${platform}${ext
       ? `.${ext}`
       : ''}`
-    return requireResolve(filename, basedir)
+    try {
+      return requireResolve(platformFile, basedir)
+    }
+    catch (platformError) {
+      // 基础文件和平台文件都没有时，直接抛平台文件的错误只看得出平台文件找不到，
+      // 看不出缺的是基础实现。只对绝对路径（项目内文件）换文案，包名保留原错误。
+      if (isAbsolute(filename)) {
+        throw new Error(missingBaseMessage(filename, platformFile), { cause: error })
+      }
+      throw platformError
+    }
   }
 }
